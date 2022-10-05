@@ -41,10 +41,27 @@ namespace OmnomPseudocode
             CollisionRect = new Rectangle((int)pos.X, (int)pos.Y, Art.Width, Art.Height);
         }
 
-        public void UpdateMe(ButtonState leftB, ButtonState rightB, ButtonState downB, ButtonState upB)
+        public void UpdateMe(ButtonState leftB, ButtonState rightB, ButtonState downB, ButtonState upB, int screenWidth, int screenHeight)
         {
+
+           
+
+            
+
+            
+
+            //if (Position.X > screenWidth - Art.Width)
+            //{
+            //    Position.X = screenWidth - Art.Width;
+            //}
+
+            //if (Position.Y > screenWidth - Art.Width)
+            //{
+            //    Position.Y = screenWidth - Art.Width;
+            //}
+
             // if leftB is pressed
-            if (leftB ==  ButtonState.Pressed)
+            if (leftB ==  ButtonState.Pressed && Position.X > 0)
             {
                 // subtract 1 from the X that belongs to Position
                 Position.X-- ;
@@ -52,7 +69,7 @@ namespace OmnomPseudocode
 
 
             // if rightB is pressed
-            if (rightB == ButtonState.Pressed)
+            if (rightB == ButtonState.Pressed && Position.X < screenWidth - Art.Width)
             {
                 // add 1 to the X that belongs to Position
                 Position.X++;
@@ -60,7 +77,7 @@ namespace OmnomPseudocode
             
 
             // if downB is pressed
-            if (downB == ButtonState.Pressed)
+            if (downB == ButtonState.Pressed && Position.Y !> screenHeight - Art.Height)
             {
                 // add 1 to the Y that belongs to Position
                 Position.Y++ ;
@@ -68,7 +85,7 @@ namespace OmnomPseudocode
             
 
             // if upB is pressed
-            if (upB == ButtonState.Pressed)
+            if (upB == ButtonState.Pressed && Position.Y > 0)
             {
                 // subtract 1 from the Y that belongs to Position
                 Position.Y-- ;

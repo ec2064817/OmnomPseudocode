@@ -20,6 +20,8 @@ namespace OmnomPseudocode
         PlayerSprite omnom, candy;
         bool candyMoved;
 
+        Rectangle screenSize;
+
 
         public Game1()
         {
@@ -32,6 +34,8 @@ namespace OmnomPseudocode
         {
             // set candyMoved to false
             candyMoved = false;
+
+            screenSize = GraphicsDevice.Viewport.Bounds;
 
             base.Initialize();
         }
@@ -73,9 +77,9 @@ namespace OmnomPseudocode
             //GamePadState = pad1;
 
             // update omnom, giving it information about the DPad Left, Right, Down and Up buttonstates
-            omnom.UpdateMe(pad1.DPad.Left, pad1.DPad.Right, pad1.DPad.Down, pad1.DPad.Up);
+            omnom.UpdateMe(pad1.DPad.Left, pad1.DPad.Right, pad1.DPad.Down, pad1.DPad.Up, screenSize.Width, screenSize.Height);
             // update the candy, giving it information about the X, B, A and Y buttonstates
-            candy.UpdateMe(pad1.Buttons.X, pad1.Buttons.B, pad1.Buttons.A, pad1.Buttons.Y);
+            candy.UpdateMe(pad1.Buttons.X, pad1.Buttons.B, pad1.Buttons.A, pad1.Buttons.Y, screenSize.Width, screenSize.Height);
 
             // Work out the line between the candy's position and omnom's and store it in candyVector
             candyVector = omnom.Position - candy.Position;
@@ -95,7 +99,7 @@ namespace OmnomPseudocode
 
 
             // if the back button is pressed
-            if (pad1.Buttons.B == ButtonState.Pressed)
+            if (pad1.Buttons.LeftShoulder == ButtonState.Pressed)
             {
                 // set candy moved to false
                 candyMoved = false;
@@ -107,8 +111,16 @@ namespace OmnomPseudocode
             {
                 // set candy moved to false
                 candyMoved = false;
+                _spriteBatch.Begin();
+                _spriteBatch.DrawString(gill14, "YOU WIN!", new Vector2(200, 200), Color.Goldenrod);
+                _spriteBatch.End();
             }
 
+            if (pad1.Buttons.Start == ButtonState.Pressed)
+            {
+                Initialize();
+                LoadContent();
+            }
 
 
             base.Update(gameTime);
@@ -177,6 +189,8 @@ namespace OmnomPseudocode
             {
                 // draw the downButton with a blue tint
                 leftButton.DrawMe(_spriteBatch, Color.Blue);
+
+                if (candy.Position.X <= 0) leftButton.DrawMe(_spriteBatch, Color.Gray);
             }
             // else
             else
@@ -191,7 +205,10 @@ namespace OmnomPseudocode
             {
                 // draw the downButton with a red tint
                 rightButton.DrawMe(_spriteBatch, Color.Red);
+
+                if (candy.Position.X >= screenSize.Width - candy.Art.Width) rightButton.DrawMe(_spriteBatch, Color.Gray);
             }
+            
             // else
             else
             {
@@ -204,10 +221,13 @@ namespace OmnomPseudocode
             if (pad1.DPad.Left == ButtonState.Released && pad1.DPad.Right == ButtonState.Released && pad1.DPad.Up == ButtonState.Released && pad1.DPad.Down == ButtonState.Released)
             {
                 // draw the candyDistance variable as a string in the top left
-                _spriteBatch.DrawString(gill14, "you are " + (int)candyDistance + " away from the candy",new Vector2(200,200) ,Color.Red);
+                _spriteBatch.DrawString(gill14, "you are " + (int)candyDistance + " away from the candy",new Vector2(0,0) ,Color.Red);
             }
 
-
+            if (pad1.DPad.Left == ButtonState.Pressed && pad1.DPad.Right == ButtonState.Pressed && pad1.DPad.Up == ButtonState.Pressed && pad1.DPad.Down == ButtonState.Pressed)
+            {
+                
+            }
 
             _spriteBatch.End();
 
