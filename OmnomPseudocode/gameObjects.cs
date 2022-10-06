@@ -77,7 +77,7 @@ namespace OmnomPseudocode
             
 
             // if downB is pressed
-            if (downB == ButtonState.Pressed && Position.Y !> screenHeight - Art.Height)
+            if (downB == ButtonState.Pressed && Position.Y !< screenHeight - Art.Height)
             {
                 // add 1 to the Y that belongs to Position
                 Position.Y++ ;

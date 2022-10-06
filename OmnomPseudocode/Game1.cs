@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using Microsoft.Xna.Framework.Audio;
+
 namespace OmnomPseudocode
 {
     public class Game1 : Game
@@ -11,7 +13,12 @@ namespace OmnomPseudocode
 
         //Class Variables for Game1
         SpriteFont gill14;
+        SpriteFont winner;
+
         float candyDistance;
+
+        SoundEffect chomp;
+        bool chompplay;
 
         GamePadState pad1;
 
@@ -37,6 +44,8 @@ namespace OmnomPseudocode
 
             screenSize = GraphicsDevice.Viewport.Bounds;
 
+            chompplay = false; 
+
             base.Initialize();
         }
 
@@ -46,6 +55,8 @@ namespace OmnomPseudocode
 
             // Load the font into the gill14 class variable
             gill14 = Content.Load<SpriteFont>("Gill14");
+
+            winner = Content.Load<SpriteFont>("Winner");
 
             // create a new upButton ButtonSprite at position 700, 10 and load the Up texture
             upButton = new ButtonSprite(Content.Load<Texture2D>("Up"), new Vector2 (700, 10));
@@ -60,10 +71,12 @@ namespace OmnomPseudocode
             rightButton = new ButtonSprite(Content.Load<Texture2D>("Right"), new Vector2(750, 60));
 
             // create a new omnom PlayerSprite at position 10, 217 and load the omnom texture
-            omnom = new PlayerSprite(Content.Load<Texture2D>("candy"), new Vector2(10, 217));
+            omnom = new PlayerSprite(Content.Load<Texture2D>("omnom"), new Vector2(10, 217));
 
             // create a new candy PlayerSprite at position 60, 224 and load the candy texture
             candy = new PlayerSprite(Content.Load<Texture2D>("candy"), new Vector2(60, 224));
+
+            chomp = Content.Load<SoundEffect>("chomp2");
 
         }
 
@@ -111,9 +124,7 @@ namespace OmnomPseudocode
             {
                 // set candy moved to false
                 candyMoved = false;
-                _spriteBatch.Begin();
-                _spriteBatch.DrawString(gill14, "YOU WIN!", new Vector2(200, 200), Color.Goldenrod);
-                _spriteBatch.End();
+                
             }
 
             if (pad1.Buttons.Start == ButtonState.Pressed)
@@ -142,6 +153,20 @@ namespace OmnomPseudocode
 
             }
 
+            if (candy.CollisionRect.Intersects(omnom.CollisionRect))
+            {
+                
+                _spriteBatch.Begin();
+                _spriteBatch.DrawString(winner, "YOU WIN!", new Vector2(200, 200), Color.Goldenrod);
+                _spriteBatch.End();
+
+                
+                if (!chompplay)
+                {
+                    chomp.Play();
+                    chompplay = true;
+                }
+            }
 
             _spriteBatch.Begin();
             // draw omnom
@@ -160,6 +185,8 @@ namespace OmnomPseudocode
             {
                 // draw the upButton with a yellow tint
                 upButton.DrawMe(_spriteBatch, Color.Yellow);
+
+                if (candy.Position.Y <= 0) upButton.DrawMe(_spriteBatch, Color.Gray);
             }
             // else
             else
@@ -175,6 +202,8 @@ namespace OmnomPseudocode
             {
                 // draw the downButton with a green tint
                 downButton.DrawMe(_spriteBatch, Color.Green);
+
+                if (candy.Position.Y >= screenSize.Height - candy.Art.Height) downButton.DrawMe(_spriteBatch, Color.Gray);
             }
             // else
             else
@@ -202,7 +231,7 @@ namespace OmnomPseudocode
 
             // if B is pressed
             if (pad1.Buttons.B == ButtonState.Pressed)
-            {
+            { 
                 // draw the downButton with a red tint
                 rightButton.DrawMe(_spriteBatch, Color.Red);
 

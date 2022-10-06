@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:candy.png
 
+#begin omnom.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:omnom.png
+
 #begin Down.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -43,6 +55,13 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Gill14.spritefont
+
+#begin Winner.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Winner.spritefont
 
 #begin Left.png
 /importer:TextureImporter
@@ -80,3 +99,8 @@
 /processorParam:TextureFormat=Color
 /build:Up.png
 
+#begin chomp2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:chomp2.wav
